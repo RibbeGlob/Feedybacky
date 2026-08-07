@@ -1,4 +1,3 @@
-"""Argumenty wiersza poleceń oraz orkiestracja całego eksportu."""
 from __future__ import annotations
 
 import argparse

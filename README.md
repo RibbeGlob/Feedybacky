@@ -1,8 +1,8 @@
 # Feedybacky Export
 
-Eksporter zgłoszeń i komentarzy z [Feedybacky](https://feedybacky.com) dla projektu
-**MondiPolska**. Loguje się w oknie Chromium (ręcznie), przechwytuje sesję i pobiera
-dane **wyłącznie żądaniami GET**.
+Eksporter zgłoszeń i komentarzy z [Feedybacky](https://feedybacky.com). Loguje się
+w oknie Chromium (ręcznie), przechwytuje sesję i pobiera dane **wyłącznie żądaniami
+GET** (nic nie modyfikuje po stronie Feedybacky).
 
 Wynik zapisywany jest lokalnie do plików JSON, z checkpointami i wznawianiem.
 
@@ -10,29 +10,53 @@ Wynik zapisywany jest lokalnie do plików JSON, z checkpointami i wznawianiem.
 
 ## 1. Wymagania
 
-- Windows z Pythonem 3.11+
-- Środowisko `.venv` z zainstalowanym Playwrightem i przeglądarką Chromium
-
-Środowisko jest już przygotowane w folderze `.venv`. Gdybyś musiał odtworzyć je od zera:
-
-```bash
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install playwright
-.\.venv\Scripts\python.exe -m playwright install chromium
-```
+- Python 3.11+
+- System: Windows (dołączony `URUCHOM_EKSPORT.bat`); działa też na macOS/Linux
+  — patrz uwaga o ścieżce interpretera niżej.
 
 ---
 
-## 2. Szybki start
+## 2. Instalacja (po sklonowaniu repo)
 
-W PowerShellu, w folderze projektu:
+
+```bash
+git clone <adres-repo>
+cd feedybacky_bot
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m playwright install chromium
+```
+
+> **macOS / Linux:** zamiast `.\.venv\Scripts\python.exe` używaj `.venv/bin/python`.
+> Ostatnia komenda (`playwright install chromium`) pobiera przeglądarkę używaną przez
+> program — jest wymagana także przy odtwarzaniu środowiska.
+
+---
+
+## 3. Konfiguracja projektu
+
+Symbol projektu Feedybacky i adresy API są w [`feedybacky/config.py`](feedybacky/config.py):
+
+```python
+PROJECT_SYMBOL = "MondiPolska-gbKWcpiIsK"
+```
+
+Aby eksportować inny projekt, zmień `PROJECT_SYMBOL` na symbol swojego projektu
+(widoczny w adresie URL na Feedybacky: `.../project/<PROJECT_SYMBOL>`).
+
+---
+
+## 4. Szybki start
+
+Z katalogu projektu:
 
 ```bash
 .\.venv\Scripts\python.exe feedybacky_export.py
 ```
 
-Albo dwuklikiem: **`URUCHOM_EKSPORT.bat`** (używa `.venv` i przekazuje argumenty).
+Na Windowsie można też uruchomić dwuklikiem **`URUCHOM_EKSPORT.bat`** (używa `.venv`
+i przekazuje argumenty).
 
 Po uruchomieniu:
 
@@ -47,7 +71,7 @@ wznowi od miejsca, w którym skończył.
 
 ---
 
-## 3. Uruchamianie parametryczne
+## 5. Uruchamianie parametryczne
 
 Ogólna postać:
 
@@ -113,7 +137,7 @@ Kombinacja — szybkie doładowanie:
 
 ---
 
-## 4. Tryby pracy — którego kiedy użyć
+## 6. Tryby pracy
 
 | Sytuacja | Komenda |
 |---|---|
@@ -130,7 +154,7 @@ Kombinacja — szybkie doładowanie:
 
 ---
 
-## 5. Pliki wynikowe
+## 7. Pliki wynikowe
 
 W folderze wyjściowym (domyślnie `feedybacky_export/`):
 
@@ -147,9 +171,25 @@ W folderze wyjściowym (domyślnie `feedybacky_export/`):
 
 Zapis jest atomowy — przerwanie nie uszkodzi poprzedniej wersji plików.
 
+Foldery wyjściowe oraz profil przeglądarki są w `.gitignore` — nie trafiają do repo.
+
 ---
 
-## 6. Struktura kodu
+## 8. Uwagi
+
+- **Dane osobowe.** Wyniki zawierają imiona i nazwiska oraz treści zgłoszeń/komentarzy.
+  Traktuj folder wynikowy jako dane wrażliwe i nie commituj go.
+- **Sesja.** Zalogowana sesja żyje w `.feedybacky_browser_profile/`. Usunięcie tego
+  folderu = wylogowanie (przy następnym uruchomieniu logujesz się od nowa).
+- **Token.** Nagłówek autoryzacyjny trzymany jest tylko w pamięci — nie trafia do
+  plików eksportu.
+- **Limit zapytań (HTTP 429).** Program sam czeka i ponawia; zbyt agresywny `--delay`
+  i tak wpadnie w limit, więc rozsądny zakres to `0.5`–`2.0` s.
+- **Uprawnienia.** Uruchamiaj wyłącznie na koncie i danych, do których masz dostęp.
+
+---
+
+## 9. Struktura kodu
 
 ```
 feedybacky_export.py     punkt wejścia

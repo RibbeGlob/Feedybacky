@@ -1,4 +1,3 @@
-"""Stałe konfiguracyjne i specyfikacje pól eksportu."""
 from __future__ import annotations
 
 from pathlib import Path

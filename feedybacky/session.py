@@ -1,4 +1,3 @@
-"""Obsługa logowania w oknie przeglądarki i weryfikacja sesji."""
 from __future__ import annotations
 
 import time

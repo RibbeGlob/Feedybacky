@@ -1,4 +1,3 @@
-"""Układ plików wyjściowych eksportu w jednym miejscu."""
 from __future__ import annotations
 
 from dataclasses import dataclass
