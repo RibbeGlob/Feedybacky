@@ -1,0 +1,41 @@
+# === Środowisko Pythona ===
+.venv/
+env/
+venv/
+
+# === Cache i artefakty Pythona ===
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# === Dane wrażliwe — NIE wypychać ===
+# Profil przeglądarki = zalogowana sesja / token dostępu.
+.feedybacky_browser_profile/
+
+# Wyniki eksportu = dane osobowe (imiona, treści zgłoszeń i komentarzy).
+feedybacky_export/
+feedybacky_test/
+# Inne foldery wyjściowe tworzone przez --output-dir:
+*_export/
+# Osierocone/robocze pliki danych w głównym folderze:
+tickets_checkpoint*.json
+comments_checkpoint*.json
+issue_list_checkpoint*.json
+issue_list_progress*.json
+errors.json
+
+# Tymczasowe pliki atomowego zapisu:
+*.tmp
+
+# === Narzędzia i sesje robocze ===
+.claude/
+
+# === System / edytory ===
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
