@@ -1,6 +1,6 @@
 # Feedybacky Export
 
-Eksporter zgłoszeń i komentarzy z [Feedybacky](https://feedybacky.com). Loguje się
+Eksporter zgłoszeń i komentarzy z Feedybacky. Loguje się
 w oknie Chromium (ręcznie), przechwytuje sesję i pobiera dane **wyłącznie żądaniami
 GET** (nic nie modyfikuje po stronie Feedybacky).
 
@@ -175,21 +175,7 @@ Foldery wyjściowe oraz profil przeglądarki są w `.gitignore` — nie trafiaj�
 
 ---
 
-## 8. Uwagi
-
-- **Dane osobowe.** Wyniki zawierają imiona i nazwiska oraz treści zgłoszeń/komentarzy.
-  Traktuj folder wynikowy jako dane wrażliwe i nie commituj go.
-- **Sesja.** Zalogowana sesja żyje w `.feedybacky_browser_profile/`. Usunięcie tego
-  folderu = wylogowanie (przy następnym uruchomieniu logujesz się od nowa).
-- **Token.** Nagłówek autoryzacyjny trzymany jest tylko w pamięci — nie trafia do
-  plików eksportu.
-- **Limit zapytań (HTTP 429).** Program sam czeka i ponawia; zbyt agresywny `--delay`
-  i tak wpadnie w limit, więc rozsądny zakres to `0.5`–`2.0` s.
-- **Uprawnienia.** Uruchamiaj wyłącznie na koncie i danych, do których masz dostęp.
-
----
-
-## 9. Struktura kodu
+## 8. Struktura kodu
 
 ```
 feedybacky_export.py     punkt wejścia
